@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PixelPro – Professional AI Image Editor</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="/" class="logo">
+        <i class="fa-solid fa-wand-magic-sparkles logo-icon"></i>
+        Pixel<span>Pro</span>
+      </a>
+      <nav class="nav">
+        <a href="/" class="nav-link active"><i class="fa-solid fa-pen-to-square"></i> Editor</a>
+        <a href="/pricing" class="nav-link"><i class="fa-solid fa-crown"></i> Pricing</a>
+        <span class="plan-badge"><i class="fa-solid fa-bolt"></i> All Free</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container editor">
+    <!-- Left Panel -->
+    <section class="panel panel-left">
+      <div class="panel-header">
+        <div class="icon-box"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+        <div>
+          <h2>Upload Image</h2>
+          <p class="panel-desc">JPG, PNG, WebP supported</p>
+        </div>
+      </div>
+      
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*" hidden>
+        <div class="upload-content">
+          <div class="upload-icon"><i class="fa-solid fa-image"></i></div>
+          <p>Click or drag & drop your image</p>
+          <span class="upload-hint">All features are 100% free</span>
+        </div>
+      </div>
+      <img id="preview" class="preview-img" alt="Preview">
+
+      <div class="panel-header" style="margin-top: 1.5rem;">
+        <div class="icon-box"><i class="fa-solid fa-sliders"></i></div>
+        <div>
+          <h2>Choose Effect</h2>
+          <p class="panel-desc">Select from 25+ filters</p>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <div class="select-wrapper">
+          <select id="feature" class="select">
+            
+            <optgroup label="Basic Adjustments">
+              <option value="brightness">Brightness</option>
+              <option value="contrast">Contrast</option>
+              <option value="saturation">Saturation</option>
+              <option value="warmth">Warmth / Coolness</option>
+              <option value="hue">Hue Shift</option>
+            </optgroup>
+
+            <optgroup label="Noise Removal">
+              <option value="gaussian">Gaussian Blur</option>
+              <option value="median">Median Blur</option>
+              <option value="bilateral">Bilateral Filter</option>
+              <option value="mean">Mean Filter</option>
+            </optgroup>
+
+            <optgroup label="Edge Detection">
+              <option value="sobel">Sobel Edges</option>
+              <option value="canny">Canny Edges</option>
+              <option value="laplacian">Laplacian</option>
+              <option value="log">Laplacian of Gaussian (LoG)</option>
+            </optgroup>
+
+            <optgroup label="Sharpening">
+              <option value="sharpen">Sharpen</option>
+              <option value="unsharp">Unsharp Mask</option>
+            </optgroup>
+
+            <optgroup label="Artistic">
+              <option value="grayscale">Grayscale</option>
+              <option value="invert">Invert</option>
+              <option value="posterize">Posterize</option>
+              <option value="sepia">Sepia</option>
+              <option value="emboss">Emboss</option>
+              <option value="threshold">Threshold (Otsu)</option>
+              <option value="sketch">Pencil Sketch</option>
+              <option value="cartoon">Cartoon Effect</option>
+              <option value="pixelate">Pixelate / Mosaic</option>
+            </optgroup>
+
+            <optgroup label="Morphological">
+              <option value="erosion">Erosion</option>
+              <option value="dilation">Dilation</option>
+            </optgroup>
+
+            <optgroup label="AI Tools">
+              <option value="bg_remove">Background Remove</option>
+              <option value="upscale">Upscale 2×</option>
+              <option value="face_retouch">Face Retouch</option>
+            </optgroup>
+            
+          </select>
+          <i class="fa-solid fa-chevron-down select-icon"></i>
+        </div>
+      </div>
+
+      <div id="valueBox" class="value-box" style="display:none;">
+        <div class="slider-header">
+          <label id="valueLabel">Strength</label>
+          <span id="val" class="val-badge">1.0</span>
+        </div>
+        <input type="range" id="valueSlider" min="0.3" max="3.0" step="0.1" value="1.0">
+      </div>
+
+      <button id="processBtn" class="btn btn-primary btn-block">
+        <span class="btn-text"><i class="fa-solid fa-bolt"></i> Process Image</span>
+        <span class="btn-loader" style="display:none;"><i class="fa-solid fa-circle-notch fa-spin"></i> Processing...</span>
+      </button>
+      
+      <p id="msg" class="message"></p>
+    </section>
+
+    <!-- Right Panel -->
+    <section class="panel panel-right">
+      <div class="panel-header">
+        <div class="icon-box"><i class="fa-solid fa-circle-check"></i></div>
+        <div>
+          <h2>Result</h2>
+          <p class="panel-desc">Download your enhanced image</p>
+        </div>
+      </div>
+      
+      <div id="resultWrap" class="result-wrap">
+        <div class="result-placeholder" id="resultPlaceholder">
+          <i class="fa-solid fa-photo-film"></i>
+          <span>Processed image will appear here</span>
+        </div>
+        <img id="result" class="result-img" alt="Result">
+      </div>
+      
+      <a id="downloadBtn" class="btn btn-secondary btn-block" download="pixelpro-enhanced.png" style="display:none;">
+        <i class="fa-solid fa-download"></i> Download Image
+      </a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p><i class="fa-solid fa-code"></i> Built for <strong>Programming for Artificial Intelligence</strong></p>
+      <p class="footer-sub">Edge Detection Filters · Instructor: Engr. Reema Qaiser Khan</p>
+      <p class="footer-copy">© 2026 PixelPro — All features currently free</p>
+    </div>
+  </footer>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

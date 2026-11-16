@@ -103,7 +103,9 @@ python app.py
 Visit:
 http://127.0.0.1:5000
 
-Project Structure
+## Project Structure
+
+```text
 image-editor/
 │
 ├── app.py
@@ -118,6 +120,7 @@ image-editor/
 │   └── script.js
 │
 └── uploads/
+```
 
 Deployment
 The application can be deployed on Render.
